@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auth website</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.7.7/axios.min.js"></script>
+</head>
+<script>
+    async function signup(){
+        const username = document.getElementById('signup-username').value;
+      const password = document.getElementById('signup-password').value;
+
+      const response = await axios.post("http://localhost:3000/signup",{
+        username : username,
+        password : password
+      })
+      alert("you're signed in")
+
+    }
+    async function signin(){
+        const username = document.getElementById('signin-username').value;
+      const password = document.getElementById('signin-password').value;
+
+      const response = await axios.post("http://localhost:3000/signin",{
+        username : username,
+        password : password
+      })
+
+      localStorage.setItem("token",response.data.token);
+      alert("you're signed in")
+
+    }
+
+    async function userinfo(){
+        const response = await axios.post("http://localhost:3000/me",
+            {username : username,
+            passwore : password,
+        token : localStorage.getItem("token")}
+        )
+
+    }
+    function logout()
+    {
+        localStorage.removeItem("token");
+    }
+</script>
+<body>
+    <div>
+    <input id="signup-username" type="text" placeholder="username">
+    <input id="signup-password" type="password" placeholder="password">
+    <button onclick="signup()">Sign Up</button>
+    </div>
+    <div>
+    <input id="signin-username" type="text" placeholder="username">
+    <input id="sigin-password" type="password" placeholder="password">
+    <button onclick="signin()">Sign In</button>
+
+
+    </div>
+    <div>
+        User Information:
+        <div id="userInfo"></div>
+        <div>
+            logout
+            <button onclick="logout()">logout</button>
+        </div>
+    </div>
+    
+
+   
+    
+</body>
+</html>

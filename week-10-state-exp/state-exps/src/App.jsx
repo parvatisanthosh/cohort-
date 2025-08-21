@@ -1,23 +1,32 @@
-import { useState } from 'react'
+import { useState,useContext,createContext } from 'react'
 import './App.css'
 
+const BulbonContext = createContext()
 function App() {
   const [count, setCount] = useState(0)
+  const [ bulbOn,setbulbOn ] = useState(true)
 
   return (
-   <div><Light/></div>
+   <div>
+    <BulbonContext.Provider value={{
+      bulbOn : bulbOn,
+      setbulbOn : setbulbOn
+    }}>
+      <Light/>
+      </BulbonContext.Provider></div>
   )
 }
 
 function Light(){
-  const [bulbOn,setbulbOn] = useState(true);
+
   return <div>
-    <LightSwitch bulbOn={ bulbOn }/>
-    <LightToggle setbulbOn={ setbulbOn } bulbOn={ bulbOn }/>
+    <LightSwitch/>
+    <LightToggle/>
   </div>
 }
 
-function LightSwitch({bulbOn}){
+function LightSwitch(){
+  const { bulbOn } = useContext(BulbonContext)
   
   return <div>
  {bulbOn ? "the bulb is on":"the bulb is off"}
@@ -26,7 +35,9 @@ function LightSwitch({bulbOn}){
   </div>
 }
 
-function LightToggle({bulbOn,setbulbOn}){
+function LightToggle(){
+
+  const { bulbOn,setbulbOn } = useContext(BulbonContext)
 
   function ToggleEvent(){
     setbulbOn(!bulbOn)

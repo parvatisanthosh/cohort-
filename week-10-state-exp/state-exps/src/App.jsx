@@ -1,4 +1,4 @@
-
+import { useState } from 'react'
 import './App.css'
 
 function App() {
@@ -10,21 +10,30 @@ function App() {
 }
 
 function Light(){
+  const [bulbOn,setbulbOn] = useState(true);
   return <div>
-    <LightSwitch/>
-    <LightToggle/>
+    <LightSwitch bulbOn={ bulbOn }/>
+    <LightToggle setbulbOn={ setbulbOn } bulbOn={ bulbOn }/>
   </div>
 }
 
-function LightSwitch(){
+function LightSwitch({bulbOn}){
+  
   return <div>
+ {bulbOn ? "the bulb is on":"the bulb is off"}
+
 
   </div>
 }
 
-function LightToggle(){
+function LightToggle({bulbOn,setbulbOn}){
+
+  function ToggleEvent(){
+    setbulbOn(!bulbOn)
+  }
   return <div>
-    
+   <button onClick={ToggleEvent}>Toggle</button>
+
   </div>
 }
 export default App
